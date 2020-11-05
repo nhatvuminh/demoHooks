@@ -1,0 +1,17 @@
+node_modules/**/*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+android/.idea/*
+ios/*
+android/*
+package-lock.json
+app.json
+*.config.js
+*.lock
+__*
+# macOS
+.DS_Store
