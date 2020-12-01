@@ -5,6 +5,7 @@ const screenWidth = Dimensions.get('window').width;
 export const styles = StyleSheet.create({
   screen: {
     flex: 1,
+    backgroundColor: 'white'
   },
   container: {
     flex: 1,

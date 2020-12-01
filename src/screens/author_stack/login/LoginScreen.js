@@ -1,9 +1,10 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef } from 'react';
 import {
   Animated,
   Easing,
   Image,
   Keyboard,
+  Platform,
   SafeAreaView,
   Text,
   TextInput,
@@ -14,7 +15,7 @@ import {
 import SlideText from '../../../components/SlideText';
 import useDimensions from '../../../helper/useDimensions';
 import {styles} from './Login.styles';
-import {AuthContext} from '../../../../App';
+import { AuthContext } from '../../../context/index';
 
 export default function LoginScreen({navigation}) {
   const [username, setUsername] = React.useState('');
@@ -66,7 +67,7 @@ export default function LoginScreen({navigation}) {
                   {
                     translateY: translateY.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [0, -100],
+                      outputRange: [0, Platform.OS === 'ios' ? -100: 0],
                       extrapolate: 'clamp',
                     }),
                   },

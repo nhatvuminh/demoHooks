@@ -1,85 +1,113 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React, { useCallback } from "react";
+import { SafeAreaView, VirtualizedList, View, Image } from "react-native";
+import Animated from "react-native-reanimated";
+import AnimatedImage from "../../../../components/AnimatedImage";
+import useDimensions from "../../../../helper/useDimensions";
 
-import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {styles} from './ListItem.styles';
+function ListItem({ data }) {
+  const { scrWidth, scrHeight } = useDimensions();
+  const onScrollItem = useCallback((e) => {
+    const {
+      nativeEvent: {
+        contentOffset: { x, y },
+      },
+    } = e;
+    console.log("xxxx", JSON.stringify(x));
+  }, []);
 
-const ListItem = ({props}) => {
-  const [count, setCount] = useState(0);
-  const [listItem, setListItem] = useState(['A', 'B', 'C']);
-
-  plusCount = () => {
-    setCount(count + 1);
-  };
-
-  minusCount = () => {
-    setCount(count - 1);
-  };
-
-  return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={{flex: 1}}>
-        <View
-          style={styles.listItem}>
-          {listItem.map((item, index) => {
-            return (
-              <View
-                style={}>
-                <Text key={index} style={{color: 'white'}}>
-                  {item}
-                </Text>
-              </View>
-            );
-          })}
-        </View>
+  const renderItem = ({ item: { avatar, imageURL }, index }) => {
+    if (index == 0) {
+      return (
+        <Animated.View
+          style={{
+            borderRadius: 10,
+            height: 170,
+            width: scrWidth / 3.5,
+            alignItems: "center",
+            justifyContent: "center",
+            transform: [
+              // {translateX: }
+              // {translateY: }
+            ],
+          }}
+        >
+          <AnimatedImage
+            source={avatar}
+            resizeMode={"cover"}
+            style={{
+              width: "90%",
+              height: "90%",
+              borderRadius: 10,
+            }}
+          />
+        </Animated.View>
+      );
+    }
+    return (
+      <View
+        style={{
+          borderRadius: 10,
+          height: 170,
+          width: scrWidth / 3.5,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <View
           style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'row',
-          }}>
-          <TouchableOpacity
-            onPress={plusCount}
+            width: 36,
+            height: 36,
+            borderRadius: 18,
+            borderWidth: 2,
+            borderColor: "blue",
+            backgroundColor: "white",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "absolute",
+            top: 15,
+            left: 15,
+            zIndex: 1,
+          }}
+        >
+          <AnimatedImage
+            source={avatar}
             style={{
-              width: 100,
-              height: 100,
-              backgroundColor: 'gray',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginEnd: 20,
-            }}>
-            <Text>{'+'}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={minusCount}
-            style={{
-              width: 100,
-              height: 100,
-              backgroundColor: 'gray',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Text>{'-'}</Text>
-          </TouchableOpacity>
+              width: 30,
+              height: 30,
+              borderRadius: 15,
+            }}
+          />
         </View>
+
+        <AnimatedImage
+          source={imageURL}
+          resizeMode={"cover"}
+          style={{
+            width: "90%",
+            height: "90%",
+            borderRadius: 10,
+          }}
+        />
       </View>
-    </SafeAreaView>
+    );
+  };
+
+  console.log("render ListItem");
+
+  return (
+    <VirtualizedList
+      data={data}
+      horizontal
+      initialNumToRender={5}
+      getItem={(data, index) => data[index]}
+      getItemCount={(data) => data.length}
+      onScrollToIndexFailed={() => {}}
+      initialScrollIndex={0}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={renderItem}
+      onScroll={onScrollItem}
+    />
   );
-};
+}
 
-
-
-export default ListItem;
+export default React.memo(ListItem);

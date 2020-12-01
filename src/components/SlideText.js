@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import {Text, View, Animated} from 'react-native';
 import PropTypes from 'prop-types';
-import {styles} from '../screens/author_stack/login/Login.styles';
+import {styles} from '../screens/author_stack/Login/Login.styles';
 import useDimensions from '../helper/useDimensions';
 
 SlideText.propTypes = {
